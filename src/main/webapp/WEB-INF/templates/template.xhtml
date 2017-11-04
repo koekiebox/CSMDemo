@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view contentType="text/html">
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title><ui:insert name="title">ATM Lookup</ui:insert></title>
+        </f:facet>
+
+        <link rel="shortcut icon" href="#{request.servletContext.contextPath}/resources/images/favicon.ico"/>
+        <link rel="icon" href="#{request.servletContext.contextPath}/resources/images/favicon.ico"/>
+
+        <!--Style Override-->
+        <style type="text/css">
+            /*Make the heading go to the middle.*/
+            .ui-toolbar-group-left{
+                float: none;
+                text-align: center;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <!--Main Content-->
+        <div id="page">
+            <div id="encompassingContent">
+                <ui:insert name="superContent">
+                    <ui:include src="/pages/main_page_tab_menu.xhtml"></ui:include>
+                    <ui:insert name="content">Default value for Content</ui:insert>
+                </ui:insert>
+            </div>
+        </div>
+
+        <!--Footer-->
+        <div id="footer" style="text-align: right; padding-top:10px;">
+            <ui:insert name="footer">
+            </ui:insert>
+        </div>
+    </h:body>
+
+</f:view>
+</html>

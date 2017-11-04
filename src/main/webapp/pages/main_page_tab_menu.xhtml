@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="topMenuForm">
+
+        <p:toolbar>
+            <f:facet name="left">
+                <i class="fa fa-bank fa-2x" style="color:#657A89;" />
+                <p:outputLabel styleClass="ui-outputlabel ui-widget" style="font-size: 150%!important;">  ATM Lookup</p:outputLabel>
+            </f:facet>
+        </p:toolbar>
+    </h:form>
+
+    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+    <p:spacer height="10px"/>
+</ui:composition>
+

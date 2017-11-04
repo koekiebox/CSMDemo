@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+              version="2.1">
+
+    <factory>
+        <exception-handler-factory>com.backbase.faces.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+
+    <navigation-rule>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>main_page</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>expired</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!--Session Scoped Matcher Bean-->
+    <!--managed-bean>
+        <managed-bean-name>transactionMatcherBean</managed-bean-name>
+        <managed-bean-class>com.tutuka.tranmatcher.web.backing.TransactionMatcherBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean-->
+</faces-config>

@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/template.xhtml">
+
+<ui:define name="content">
+    
+    <!--Upload new Batch-->
+    <h:form id="transactionFileAUploadForm">
+
+        <p:fieldset id="specifyFilesFieldset"
+                    legend="Enter City for ATM Lookup">
+
+            <h:panelGrid columns="2" width="50%">
+
+                <p:outputLabel style="padding-left: 15px;"
+                               id="labelCity" value="City"/>
+                
+                <p:autoComplete id="cityLookupDrop"
+                                size="50"
+                                dropdown="true"
+                                value="#{atmLookupBean.inputCity}"
+                                forceSelection="true"
+                                completeMethod="#{atmLookupBean.completePossibleCity}">
+
+                    <p:ajax event="itemSelect"
+                            listener="#{atmLookupBean.actionCitySelectedEvent}"
+                            update=":atmResultsTable"/>
+                </p:autoComplete>
+            </h:panelGrid>
+        </p:fieldset>
+    </h:form>
+
+    <p:dataTable
+            id="atmResultsTable"
+            var="atmItem"
+            value="#{atmLookupBean.atmListing}"
+            emptyMessage="No ATMs found for '#{atmLookupBean.inputCity}'">
+
+        <p:column headerText="ATM Type" width="100">
+            <p:outputLabel value="#{atmItem.type}" />
+        </p:column>
+
+        <p:column headerText="ATM Address City">
+            <p:outputLabel value="#{atmItem.address.city}" />
+        </p:column>
+
+        <p:column headerText="ATM Address Street">
+            <p:outputLabel value="#{atmItem.address.street}" />
+        </p:column>
+
+        <p:column headerText="ATM Address House Number" width="80">
+            <p:outputLabel value="#{atmItem.address.houseNumber}" />
+        </p:column>
+
+        <p:column headerText="ATM Address Postal Code" width="110">
+            <p:outputLabel value="#{atmItem.address.postalCode}" />
+        </p:column>
+
+        <p:column headerText="ATM Address Geo Latitude" width="110">
+            <p:outputLabel value="#{atmItem.address.geoLocation.latitude}" />
+        </p:column>
+
+        <p:column headerText="ATM Address Geo Longitude" width="110">
+            <p:outputLabel value="#{atmItem.address.geoLocation.longitude}" />
+        </p:column>
+    </p:dataTable>
+
+    <p:spacer height="20px"/>
+</ui:define>
+</ui:composition>
+

@@ -1,65 +1,155 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
-
-    Licensed to the Apache Software Foundation (ASF) under one or more
-    contributor license agreements.  See the NOTICE file distributed with
-    this work for additional information regarding copyright ownership.
-    The ASF licenses this file to You under the Apache License, Version 2.0
-    (the "License"); you may not use this file except in compliance with
-    the License.  You may obtain a copy of the License at
-
-         http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
-<!-- START SNIPPET: e1 -->
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-  <display-name>CSM Demo Application</display-name>
+    <display-name>CSM Demo Application</display-name>
 
-  <!-- location of spring xml files -->
-  <!--context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:camel-config.xml</param-value>
-  </context-param-->
+    <!-- location of spring xml files -->
+    <!--context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:camel-config.xml</param-value>
+    </context-param-->
 
-  <!-- The listener that kick-starts Spring -->
-  <!--listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener-->
+    <!-- The listener that kick-starts Spring -->
+    <!--listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener-->
 
-  <!-- Spring Dispatch Servlet-->
-  <servlet>
-    <servlet-name>SpringServlet</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
+    <!-- Spring Dispatch Servlet-->
+    <servlet>
+        <servlet-name>SpringServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-  <!-- Camel Servlet mapping -->
-  <servlet-mapping>
-    <servlet-name>SpringServlet</servlet-name>
-    <url-pattern>/api/*</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Camel Servlet -->
-  <!--servlet>
-    <servlet-name>CamelServlet</servlet-name>
-    <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet-->
+    <!-- Spring servlet mapping for the API. -->
+    <servlet-mapping>
+        <servlet-name>SpringServlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 
-  <!-- Camel Servlet mapping -->
-  <!--servlet-mapping>
-    <servlet-name>CamelServlet</servlet-name>
-    <url-pattern>/camel/*</url-pattern>
-  </servlet-mapping-->
+    <listener>
+        <listener-class>
+            com.sun.faces.config.ConfigureListener
+        </listener-class>
+    </listener>
 
+    <!-- JSF Servlet for the GUI. -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+    <!--The JSF page will be the landing page-->
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!--context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>afterwork</param-value>
+    </context-param-->
+
+    <!--Enable FontAwesome-->
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+
+    <!--Error Pages-->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/index.xhtml</location>
+    </error-page>
+
+    <!--Mime Mappings-->
+    <!--Font Awesome-->
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/font-sfnt</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/font-woff2</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>eot?#iefix</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exosemibold</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exobolditalic</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exomedium</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exoregular</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#fontawesomeregular</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+
+    <!-- Camel Servlet -->
+    <!--servlet>
+      <servlet-name>CamelServlet</servlet-name>
+      <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+    </servlet-->
+
+    <!-- Camel Servlet mapping -->
+    <!--servlet-mapping>
+      <servlet-name>CamelServlet</servlet-name>
+      <url-pattern>/camel/*</url-pattern>
+    </servlet-mapping-->
 </web-app>
-  <!-- END SNIPPET: e1 -->
