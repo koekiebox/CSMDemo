@@ -27,6 +27,38 @@ public class Address extends ABaseModel{
     }
 
     /**
+     * 
+     * @param geoLocationParam
+     */
+    public Address(GeoLocation geoLocationParam) {
+        super();
+
+        this.setGeoLocation(geoLocationParam);
+    }
+
+    /**
+     *
+     * @param geoLocationParam
+     * @param streetParam
+     * @param houseNumberParam
+     * @param postalCodeParam
+     * @param cityParam
+     */
+    public Address(
+            GeoLocation geoLocationParam,
+            String streetParam,
+            String houseNumberParam,
+            String postalCodeParam,
+            String cityParam) {
+
+        this.setGeoLocation(geoLocationParam);
+        this.setStreet(streetParam);
+        this.setHouseNumber(houseNumberParam);
+        this.setPostalCode(postalCodeParam);
+        this.setCity(cityParam);
+    }
+
+    /**
      *
      * @return
      */
@@ -39,7 +71,7 @@ public class Address extends ABaseModel{
      *
      * @return
      */
-    @XmlElement(name = "house_number")
+    @XmlElement(name = "houseNumber")
     public String getHouseNumber() {
         return this.houseNumber;
     }
@@ -48,7 +80,7 @@ public class Address extends ABaseModel{
      *
      * @return
      */
-    @XmlElement(name = "postal_code")
+    @XmlElement(name = "postalCode")
     public String getPostalCode() {
         return this.postalCode;
     }
@@ -66,7 +98,7 @@ public class Address extends ABaseModel{
      *
      * @return
      */
-    @XmlElement(name = "geo_location")
+    @XmlElement(name = "geoLocation")
     public GeoLocation getGeoLocation() {
         return this.geoLocation;
     }
@@ -119,6 +151,43 @@ public class Address extends ABaseModel{
     @Override
     public boolean equals(Object toCompareToParam) {
 
-        //TODO compelte....
+        if(!(toCompareToParam instanceof Address))
+        {
+            return false;
+        }
+
+        //First try and match according to GEO location...
+        Address paramCasted = (Address)toCompareToParam;
+        if(paramCasted.getGeoLocation() != null && this.getGeoLocation() != null)
+        {
+            return paramCasted.getGeoLocation().equals(this.getGeoLocation());
+        }
+
+        //If geo location is not set, we will fallback to street etc.
+        if(paramCasted.getStreet() == null || this.getStreet() == null)
+        {
+            return false;
+        }
+
+        if(paramCasted.getHouseNumber() == null || this.getHouseNumber() == null)
+        {
+            return false;
+        }
+
+        if(paramCasted.getPostalCode() == null || this.getPostalCode() == null)
+        {
+            return false;
+        }
+
+        if(paramCasted.getCity() == null || this.getCity() == null)
+        {
+            return false;
+        }
+
+        //Match Street, House Number, Postal Code and City...
+        return ((paramCasted.getStreet().equals(this.getStreet()) &&
+                paramCasted.getHouseNumber().equals(this.getHouseNumber())) &&
+                (paramCasted.getPostalCode().equals(this.getPostalCode()) &&
+                        paramCasted.getCity().equals(this.getCity())));
     }
 }

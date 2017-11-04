@@ -323,6 +323,12 @@ public abstract class ABaseClientWS {
                                 this.endpointUrl.concat(postfixUrlParam)+"'.");
             }
 
+            //Iter until we hit the array bracket...
+            while (!responseBody.startsWith("[") && !responseBody.isEmpty())
+            {
+                responseBody = responseBody.substring(1, responseBody.length());
+            }
+            
             JSONArray jsonOjb = new JSONArray(responseBody);
 
             return jsonOjb;

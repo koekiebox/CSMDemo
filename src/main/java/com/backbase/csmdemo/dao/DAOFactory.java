@@ -1,7 +1,7 @@
 package com.backbase.csmdemo.dao;
 
 import com.backbase.csmdemo.dao.impl.ing.IngATMDAO;
-import com.backbase.csmdemo.dao.impl.MockATMDAO;
+import com.backbase.csmdemo.dao.impl.mock.MockATMDAO;
 
 import java.util.ArrayList;
 import java.util.List;

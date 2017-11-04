@@ -24,16 +24,15 @@ public class CSMApp implements ICSMApp {
 
     private long lastFetch = 0;
 
-    private boolean isInMockMode;
-
     //Ideally one would make use of a caching system like;
-    //MemCached or Redis...
-    private volatile Map<String, List<ATM>> atmToCityMapping = new HashMap<>();
+    //MemCached or Redis...but for now we will use a local static Map.
+    private static Map<String, List<ATM>> atmToCityMapping = new HashMap<>();
+    private static Map<String, String> atmToCityProperFormatMapping = new HashMap<>();
 
-    protected Logger logger =
+    private Logger logger =
             LoggerFactory.getLogger(this.getClass().getName());
 
-    private static int FETCH_ATM_LIST_EVERY_HOURS = 2;
+    private static final int FETCH_ATM_LIST_EVERY_HOURS = 2;
 
     /**
      * Constructor to all for testing.
@@ -43,9 +42,7 @@ public class CSMApp implements ICSMApp {
     public CSMApp(boolean isInMockModeParam) {
         super();
 
-        this.isInMockMode = isInMockModeParam;
-
-        if(this.isInMockMode)
+        if(isInMockModeParam)
         {
             this.allAtmDaos = DAOFactory.getSpecificATMDAOs(DAOFactory.ATMType.Test);
         }
@@ -88,7 +85,7 @@ public class CSMApp implements ICSMApp {
 
         String key = cityParam.trim().toUpperCase();
         
-        return this.atmToCityMapping.get(key);
+        return CSMApp.atmToCityMapping.get(key);
     }
 
     /**
@@ -108,7 +105,7 @@ public class CSMApp implements ICSMApp {
 
         List<ATM> returnVal = new ArrayList<>();
 
-        this.atmToCityMapping.values().forEach(
+        CSMApp.atmToCityMapping.values().forEach(
                 toAdd -> {
                     returnVal.addAll(toAdd);
                 }
@@ -119,6 +116,47 @@ public class CSMApp implements ICSMApp {
                 returnVal,
                 new SortATMsByCityComparator());
         
+        return returnVal;
+    }
+
+    /**
+     * Retrieve all the ATM cities where the city name {@code cityLookupParam}.
+     *
+     * If the name is empty, all the cities will be returned.
+     *
+     * @param cityLookupParam The lookup text to use.
+     *
+     * @return Listing of Cities.
+     */
+    @Override
+    public List<String> getUniqueCityNamesWhereContains(String cityLookupParam) {
+
+        //Should the ATM listing be refreshed...
+        if(this.shouldRefreshATMListing())
+        {
+            //Get the list...
+            this.refreshATMListing();
+        }
+
+        String paramUpperCaseTrimmed =
+                (cityLookupParam == null || cityLookupParam.trim().isEmpty()) ? null:
+                        cityLookupParam.trim().toUpperCase();
+
+        List<String> returnVal = new ArrayList<>();
+
+        CSMApp.atmToCityMapping.keySet().forEach(
+                toAdd -> {
+
+                    if(paramUpperCaseTrimmed == null || toAdd.contains(paramUpperCaseTrimmed))
+                    {
+                        returnVal.add(atmToCityProperFormatMapping.get(toAdd));
+                    }
+                }
+        );
+
+        //Sort the Cities...
+        Collections.sort(returnVal);
+
         return returnVal;
     }
 
@@ -153,9 +191,10 @@ public class CSMApp implements ICSMApp {
     {
         //We ensure that no thread accessing this while.
         //being modified. 
-        synchronized (this.atmToCityMapping)
+        synchronized (CSMApp.atmToCityMapping)
         {
-            this.atmToCityMapping.clear();
+            CSMApp.atmToCityMapping.clear();
+            CSMApp.atmToCityProperFormatMapping.clear();
             
             //Use each of the DAO items...
             this.allAtmDaos.forEach((daoItm) -> {
@@ -177,7 +216,7 @@ public class CSMApp implements ICSMApp {
 
                             String key = atm.getAddress().getCity().trim().toUpperCase();
 
-                            List<ATM> atmsForCity = this.atmToCityMapping.get(key);
+                            List<ATM> atmsForCity = CSMApp.atmToCityMapping.get(key);
 
                             if(atmsForCity == null)
                             {
@@ -195,7 +234,15 @@ public class CSMApp implements ICSMApp {
                                     atmsForCity,
                                     new SortATMsByStreetNameComparator());
                             
-                            this.atmToCityMapping.put(key, atmsForCity);
+                            CSMApp.atmToCityMapping.put(key, atmsForCity);
+
+                            if(!CSMApp.atmToCityProperFormatMapping.containsKey(key))
+                            {
+                                synchronized (CSMApp.atmToCityProperFormatMapping)
+                                {
+                                    CSMApp.atmToCityProperFormatMapping.put(key, atm.getAddress().getCity().trim());
+                                }
+                            }
                         }
                     }
                 }

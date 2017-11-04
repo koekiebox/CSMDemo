@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO Description comes here.
+ * Base class for all Rest Controllers.
  *
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
@@ -26,6 +26,8 @@ public abstract class ABaseController {
      * 
      */
     protected static class ContentType{
+
+        public static final String ALL = "*";
         public static final String JSON = "application/json";
     }
 }

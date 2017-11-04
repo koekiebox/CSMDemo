@@ -26,4 +26,16 @@ public interface ICSMApp {
      * @return Listing of ATMs.
      */
     public abstract List<ATM> getCompleteListOfATMs();
+
+    /**
+     * Retrieve all the ATM cities where the city name {@code cityLookupParam}.
+     *
+     * If the name is empty, all the cities will be returned.
+     *
+     * @param cityLookupParam The lookup text to use.
+     *
+     * @return Listing of Cities.
+     */
+    public abstract List<String> getUniqueCityNamesWhereContains(
+            String cityLookupParam);
 }

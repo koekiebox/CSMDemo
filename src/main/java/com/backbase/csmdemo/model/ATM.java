@@ -14,6 +14,7 @@ public class ATM extends ABaseModel{
 
     //we are ignoring distance for now.
     private int distance;
+    
     private String type;
     private Address address;
 
@@ -25,7 +26,6 @@ public class ATM extends ABaseModel{
     }
 
     /**
-     * Default.
      * 
      * @param typeParam
      */
@@ -33,6 +33,18 @@ public class ATM extends ABaseModel{
         super();
 
         this.setType(typeParam);
+    }
+
+    /**
+     * 
+     * @param typeParam
+     * @param addressParam
+     */
+    public ATM(String typeParam, Address addressParam) {
+        super();
+
+        this.setType(typeParam);
+        this.setAddress(addressParam);
     }
 
     /**
@@ -70,13 +82,35 @@ public class ATM extends ABaseModel{
     }
 
     /**
-     *
+     * 
      * @param toCompareToParam
      * @return
      */
     @Override
     public boolean equals(Object toCompareToParam) {
 
-        //TODO compelte....
+        if(!(toCompareToParam instanceof ATM))
+        {
+            return false;
+        }
+
+        ATM paramCasted = (ATM)toCompareToParam;
+
+        if(paramCasted.getType() == null || this.getType() == null)
+        {
+            return false;
+        }
+
+        if(!paramCasted.getType().equals(this.getType()))
+        {
+            return false;
+        }
+
+        if(paramCasted.getAddress() == null || this.getAddress() == null)
+        {
+            return false;
+        }
+        
+        return paramCasted.getAddress().equals(this.getAddress());
     }
 }

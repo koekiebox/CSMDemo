@@ -23,6 +23,7 @@ public class IngATMDAO implements IATMDAO {
 
     private static String TYPE = "ING";
 
+    //This needs to be a property...
     private static String ENDPOINT = "https://www.ing.nl";
 
     /**
@@ -36,11 +37,19 @@ public class IngATMDAO implements IATMDAO {
     @Override
     public List<ATM> getListOfAllATMs() throws HttpClientException{
 
-        IngAtmWebServiceClient ingAtmClient = new IngAtmWebServiceClient();
+        //Get the list of ATMs...
+        JSONArray arrayOfDataObjects = null;
+        try(IngAtmWebServiceClient ingAtmClient = new IngAtmWebServiceClient())
+        {
+            arrayOfDataObjects = ingAtmClient.getJsonArray("/api/locator/atms/");
+        }
 
-        JSONArray arrayOfDataObjects = ingAtmClient.getJsonArray("/api/locator/atms/");
-        
         List<ATM> returnVal = new ArrayList<>();
+
+        if(arrayOfDataObjects == null)
+        {
+            return returnVal;
+        }
 
         for(int index = 0;index <
                 arrayOfDataObjects.length();index++)
@@ -71,14 +80,9 @@ public class IngATMDAO implements IATMDAO {
             if(geoLocObj != null)
             {
                 geoLocation = new GeoLocation();
-
-                String lat = geoLocObj.getString(JSONMappingOfIngATM.LAT);
-                String lng = geoLocObj.getString(JSONMappingOfIngATM.LNG);
                 
-                geoLocation.setLatitude();
-                geoLocation.setLongitude();
-
-
+                geoLocation.setLatitude(geoLocObj.getString(JSONMappingOfIngATM.LAT));
+                geoLocation.setLongitude(geoLocObj.getString(JSONMappingOfIngATM.LNG));
             }
 
             ATM atmToAdd = new ATM(TYPE);
@@ -121,13 +125,21 @@ public class IngATMDAO implements IATMDAO {
     /**
      * 
      */
-    private static class IngAtmWebServiceClient extends ABaseClientWS
+    private static class IngAtmWebServiceClient extends ABaseClientWS implements AutoCloseable
     {
         /**
          * 
          */
         public IngAtmWebServiceClient() {
             super(ENDPOINT);
+        }
+
+        /**
+         * Close the stream.
+         */
+        @Override
+        public void close() {
+            this.closeAndClean();
         }
     }
 }

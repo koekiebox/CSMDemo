@@ -11,8 +11,9 @@ import com.backbase.csmdemo.application.impl.CSMApp;
 public class AppFactory {
 
     /**
+     * Retrieve the production CSM App.
      *
-     * @return
+     * @return new instance of {@code CSMApp}
      */
     public static ICSMApp getCMSApp()
     {
@@ -20,8 +21,9 @@ public class AppFactory {
     }
 
     /**
+     * Retrieve the test CSM App.
      * 
-     * @return
+     * @return new instance of {@code CSMApp}
      */
     public static ICSMApp getCMSAppForTest()
     {

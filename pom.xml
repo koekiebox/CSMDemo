@@ -53,6 +53,9 @@
         <!--Org.JSON-->
         <version.org.json>20170516</version.org.json>
 
+        <!--Test versions-->
+        <version.junit>4.12</version.junit>
+
         <!--Plugins-->
         <version.plugin.jetty>9.4.7.v20170914</version.plugin.jetty>
         <version.plugin.compiler>3.7.0</version.plugin.compiler>
@@ -129,22 +132,22 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${version.org.json}</version>
-            <scope>compile</scope>
+            <scope>${scope.default}</scope>
         </dependency>
 
         <!--HTTP Client-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <scope>${scope.default</scope>
             <version>${version.apache.httpcomponents.httpclient}</version>
+            <scope>${scope.default}</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>${version.apache.httpcomponents.httpcore}</version>
-            <scope>${scope.default</scope>
+            <scope>${scope.default}</scope>
         </dependency>
 
         <!-- logging - log4j-->
@@ -165,6 +168,15 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <scope>provided</scope>
             <version>${version.log4j}</version>
+        </dependency>
+
+        <!--TESTING-->
+        <!--JUnit Testing-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

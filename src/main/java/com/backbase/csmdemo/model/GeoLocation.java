@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
  */
-@XmlRootElement(name = "geo_location")
+@XmlRootElement(name = "geoLocation")
 public class GeoLocation extends ABaseModel{
 
     private double latitude;
@@ -20,6 +20,16 @@ public class GeoLocation extends ABaseModel{
      */
     public GeoLocation() {
         super();
+    }
+
+    /**
+     * 
+     * @param latitudeParam
+     * @param longitudeParam
+     */
+    public GeoLocation(double latitudeParam, double longitudeParam) {
+        this.setLatitude(latitudeParam);
+        this.setLongitude(longitudeParam);
     }
 
     /**
@@ -50,10 +60,54 @@ public class GeoLocation extends ABaseModel{
 
     /**
      * 
+     * @param latitudeAsStringParam
+     */
+    public void setLatitude(String latitudeAsStringParam) {
+
+        if(latitudeAsStringParam == null || latitudeAsStringParam.trim().isEmpty())
+        {
+            this.latitude = 0;
+            return;
+        }
+
+        try
+        {
+            this.latitude = Double.parseDouble(latitudeAsStringParam.trim());
+        }
+        catch (NumberFormatException nfe)
+        {
+            this.latitude = 0;
+        }
+    }
+
+    /**
+     * 
      * @param longitudeParam
      */
     public void setLongitude(double longitudeParam) {
         this.longitude = longitudeParam;
+    }
+
+    /**
+     * 
+     * @param longitudeAsStringParam
+     */
+    public void setLongitude(String longitudeAsStringParam) {
+
+        if(longitudeAsStringParam == null || longitudeAsStringParam.trim().isEmpty())
+        {
+            this.longitude = 0;
+            return;
+        }
+
+        try
+        {
+            this.longitude = Double.parseDouble(longitudeAsStringParam.trim());
+        }
+        catch (NumberFormatException nfe)
+        {
+            this.longitude = 0;
+        }
     }
 
     /**
@@ -64,6 +118,14 @@ public class GeoLocation extends ABaseModel{
     @Override
     public boolean equals(Object toCompareToParam) {
 
-        //TODO compelte....
+        if(!(toCompareToParam instanceof GeoLocation))
+        {
+            return false;
+        }
+
+        GeoLocation paramCasted = (GeoLocation)toCompareToParam;
+
+        return ((paramCasted.getLatitude() == this.getLatitude()) &&
+                (paramCasted.getLongitude() == this.getLongitude()));
     }
 }
