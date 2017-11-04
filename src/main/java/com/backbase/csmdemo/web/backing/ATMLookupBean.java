@@ -4,8 +4,6 @@ import com.backbase.csmdemo.application.AppFactory;
 import com.backbase.csmdemo.application.ICSMApp;
 import com.backbase.csmdemo.model.ATM;
 import org.primefaces.event.SelectEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,6 +13,7 @@ import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * JSF Bean used to lookup transactions.
@@ -23,7 +22,7 @@ import java.util.List;
 @ManagedBean(name = "atmLookupBean")
 public class ATMLookupBean implements Serializable {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     private ICSMApp cmsApp;
     private List<ATM> atmListing = null;
@@ -71,8 +70,8 @@ public class ATMLookupBean implements Serializable {
      */
     public void actionCitySelectedEvent(SelectEvent eventParam)
     {
-        this.logger.debug("Looking for ATMs in City '{}'.",
-                eventParam.getObject().toString());
+        this.logger.finer("Looking for ATMs in City '"+
+                eventParam.getObject().toString()+"'.");
 
         this.atmListing.clear();
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * The rest controller for ATM related web service calls.
@@ -65,8 +66,11 @@ public class ATMController extends ABaseController{
             returnVal = new ArrayList<>();
         }
 
-        this.logger.debug("Fetching ATM's for '{}' returned '{}' results.",
-                cityParam, returnVal.size());
+        this.logger.log(
+                Level.FINER,
+                "Fetching ATM's for '"+
+                        cityParam+"' returned '"+
+                        returnVal.size()+"' results.");
 
         return returnVal;
     }
@@ -95,9 +99,12 @@ public class ATMController extends ABaseController{
             returnVal = new ArrayList<>();
         }
 
-        this.logger.debug("Fetching City alias for '{}' returned '{}' results.",
-                cityAliasParam, returnVal.size());
-
+        this.logger.log(
+                Level.FINER,
+                "Fetching City alias for '"+
+                        cityAliasParam+"' returned '"+
+                        returnVal.size()+"' results.");
+        
         return returnVal;
     }
 }

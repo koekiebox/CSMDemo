@@ -5,11 +5,11 @@ import com.backbase.csmdemo.dao.DAOFactory;
 import com.backbase.csmdemo.dao.IATMDAO;
 import com.backbase.csmdemo.exception.CMSException;
 import com.backbase.csmdemo.model.ATM;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The CSM application used for business logic functions.
@@ -29,8 +29,7 @@ public class CSMApp implements ICSMApp {
     private static Map<String, List<ATM>> atmToCityMapping = new HashMap<>();
     private static Map<String, String> atmToCityProperFormatMapping = new HashMap<>();
 
-    private Logger logger =
-            LoggerFactory.getLogger(this.getClass().getName());
+    protected Logger logger = Logger.getLogger(this.getClass().getName());
 
     private static final int FETCH_ATM_LIST_EVERY_HOURS = 2;
 
@@ -248,7 +247,9 @@ public class CSMApp implements ICSMApp {
                 }
                 catch (CMSException problem)
                 {
-                    this.logger.error("Unable to retrieve for '"+
+                    this.logger.log(
+                            Level.SEVERE,
+                            "Unable to retrieve for '"+
                             daoItm.getClass().getSimpleName()+"'. "+
                             problem.getMessage(),problem);
                 }

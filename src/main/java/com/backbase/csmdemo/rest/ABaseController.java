@@ -1,8 +1,7 @@
 package com.backbase.csmdemo.rest;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 /**
  * Base class for all Rest Controllers.
@@ -12,8 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ABaseController {
 
-    protected Logger logger =
-            LoggerFactory.getLogger(this.getClass().getName());
+    protected Logger logger = Logger.getLogger(this.getClass().getName());
     
     /**
      *

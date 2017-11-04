@@ -130,7 +130,6 @@
             <version>1.7.1</version>
             <scope>${scope.default}</scope>
         </dependency-->
-
         <!--JSON Library API-->
         <dependency>
             <groupId>org.json</groupId>
@@ -146,7 +145,6 @@
             <version>${version.apache.httpcomponents.httpclient}</version>
             <scope>${scope.default}</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
@@ -168,32 +166,11 @@
             <version>${version.jsf}</version>
             <scope>${scope.default}</scope>
         </dependency>
-
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${version.jsf.primefaces}</version>
             <scope>${scope.default}</scope>
-        </dependency>
-
-        <!-- logging - log4j-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <scope>provided</scope>
-            <version>${version.log4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <scope>provided</scope>
-            <version>${version.log4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>provided</scope>
-            <version>${version.log4j}</version>
         </dependency>
 
         <!--TESTING-->
