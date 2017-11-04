@@ -15,9 +15,7 @@
 
             <h:panelGrid columns="2" width="50%">
 
-                <p:outputLabel style="padding-left: 15px;"
-                               id="labelCity" value="City"/>
-                
+                <p:outputLabel style="padding-left: 15px;" id="labelCity" value="City"/>
                 <p:autoComplete id="cityLookupDrop"
                                 size="50"
                                 dropdown="true"
@@ -29,6 +27,15 @@
                             listener="#{atmLookupBean.actionCitySelectedEvent}"
                             update=":atmResultsTable"/>
                 </p:autoComplete>
+
+
+                <p:outputLabel
+                        style="padding-left: 15px;"
+                        id="labelAPIUrl" value="Example of API URL (GET)"/>
+
+                <p:outputLabel
+                        style="padding-left: 15px;font-weight: bold;"
+                        id="labelAPIVal" value="#{request.servletContext.contextPath}/api/atm/?city=Amsterdam"/>
             </h:panelGrid>
         </p:fieldset>
     </h:form>
