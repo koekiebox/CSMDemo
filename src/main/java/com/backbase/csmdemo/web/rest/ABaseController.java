@@ -1,4 +1,4 @@
-package com.backbase.csmdemo.rest;
+package com.backbase.csmdemo.web.rest;
 
 
 import java.util.logging.Logger;

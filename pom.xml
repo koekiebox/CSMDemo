@@ -43,6 +43,8 @@
 
         <version.camel.core>2.20.0</version.camel.core>
         <version.spring>4.3.12.RELEASE</version.spring>
+        <version.spring.security>4.2.3.RELEASE</version.spring.security>
+
         <version.jackson.databind>2.9.2</version.jackson.databind>
         <version.log4j>2.9.1</version.log4j>
 
@@ -56,6 +58,7 @@
         <!--JSF-->
         <version.jsf>2.2.8</version.jsf>
         <version.jsf.primefaces>6.1</version.jsf.primefaces>
+        <version.java.servlet>3.0.1</version.java.servlet>
 
         <!--Test versions-->
         <version.junit>4.12</version.junit>
@@ -107,6 +110,29 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${version.spring}</version>
             <scope>${scope.default}</scope>
+        </dependency>
+
+        <!--Spring Security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${version.spring.security}</version>
+            <scope>${scope.default}</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${version.spring.security}</version>
+            <scope>${scope.default}</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${version.java.servlet}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Jackson JSON Processor -->

@@ -10,10 +10,13 @@
     <!--Upload new Batch-->
     <h:form id="transactionFileAUploadForm">
 
+        <!--This is a hack to Spring, as it doesn't get set-->
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        
         <p:fieldset id="specifyFilesFieldset"
                     legend="Enter City for ATM Lookup">
 
-            <h:panelGrid columns="2" width="50%">
+            <h:panelGrid columns="2" width="70%">
 
                 <p:outputLabel style="padding-left: 15px;" id="labelCity" value="City"/>
                 <p:autoComplete id="cityLookupDrop"
@@ -28,14 +31,15 @@
                             update=":atmResultsTable"/>
                 </p:autoComplete>
 
-
                 <p:outputLabel
                         style="padding-left: 15px;"
                         id="labelAPIUrl" value="Example of API URL (GET)"/>
 
-                <p:outputLabel
+                <p:link href="http://#{request.serverName}:#{request.serverPort}#{request.servletContext.contextPath}/api/atm/?city=Amsterdam"
+                        target="_blank"
                         style="padding-left: 15px;font-weight: bold;"
-                        id="labelAPIVal" value="#{request.servletContext.contextPath}/api/atm/?city=Amsterdam"/>
+                        id="labelAPIVal"
+                        value="http://#{request.serverName}:#{request.serverPort}#{request.servletContext.contextPath}/api/atm/?city=Amsterdam"/>
             </h:panelGrid>
         </p:fieldset>
     </h:form>

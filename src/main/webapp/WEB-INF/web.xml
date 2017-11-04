@@ -8,13 +8,13 @@
     <!-- location of spring xml files -->
     <!--context-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:camel-config.xml</param-value>
+      <param-value>classpath:/WEB-INF/SpringServlet-servlet.xml</param-value>
     </context-param-->
 
     <!-- The listener that kick-starts Spring -->
-    <!--listener>
+    <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener-->
+    </listener>
 
     <!-- Spring Dispatch Servlet-->
     <servlet>

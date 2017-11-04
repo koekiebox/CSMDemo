@@ -1,4 +1,4 @@
-package com.backbase.csmdemo.rest.exception;
+package com.backbase.csmdemo.web.rest.exception;
 
 import com.backbase.csmdemo.exception.CMSException;
 

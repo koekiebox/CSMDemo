@@ -1,10 +1,10 @@
-package com.backbase.csmdemo.rest;
+package com.backbase.csmdemo.web.rest;
 
 import com.backbase.csmdemo.application.AppFactory;
 import com.backbase.csmdemo.application.ICSMApp;
 import com.backbase.csmdemo.exception.CMSException;
 import com.backbase.csmdemo.model.ATM;
-import com.backbase.csmdemo.rest.exception.InvalidParamException;
+import com.backbase.csmdemo.web.rest.exception.InvalidParamException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class ATMController extends ABaseController{
             method = RequestMethod.GET,
             consumes = ContentType.ALL,
             produces = ContentType.JSON)
-    //TODO @Secured({ "ROLE_SYSTEM" })
+    //@Secured({ "ROLE_SYSTEM" }) - Leave for now.
     @ResponseBody
     public List<ATM> listATMsForAsJSON(@RequestParam("city") String cityParam)
     throws CMSException {

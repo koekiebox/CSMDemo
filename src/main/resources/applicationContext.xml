@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<context:component-scan base-package="com.backbase.csmdemo.rest" />
+	<context:component-scan base-package="com.backbase.csmdemo" />
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
 	
