@@ -115,7 +115,7 @@ Maven is used to perform building, javadoc generation and testing of the CSM Dem
 Please ensure you have downloaded and installed Maven successfully.
 Confirm with running the following command `mvn -version`, should produce something similar to;
 
-```commandline
+```
 Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T20:41:47+04:00)
 Maven home: /usr/local/apache-maven-3.3.9
 Java version: 1.8.0_101, vendor: Oracle Corporation
@@ -159,7 +159,10 @@ See the valid users at the **Users** section.
 ![Step 3](content/screenshots/3.png) 
 
 ###### 4. Once you select one of the available cities, the ATM's applicable to those cities will be retrieved and displayed. 
-![Step 3](content/screenshots/4.png)
+![Step 4](content/screenshots/4.png)
+
+###### 5. You may click on the example web service link to see an example of a valid output _(Opens in a new tab / page)_. 
+![Step 5](content/screenshots/5.png)
 
 #### Users
 
