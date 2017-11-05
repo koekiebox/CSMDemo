@@ -10,6 +10,8 @@ A sample application making use of Maven, Camel and Spring.
 The purpose of the application is to lookup ATM's in cities across the Netherlands.
 
 The application provides for an REST API as well as a built-in GUI (using JSF).
+
+The application was develped using **IntelliJ IDEA 2015.2.5**.
   
 ## Architecture
 
@@ -144,25 +146,30 @@ The screenshots below describe the using of the ATM Lookup via the Web Front-End
 
 ###### 1. Navigate to the CSM Demo web page (http://localhost:8080/csmdemo/):
 
-> Please ensure the web application is deployed successfully.
+> Please ensure the web application is deployed successfully first.
 
-You will be prompted to enter valid username and password.
+You will be prompted to enter valid username and password. 
+See the valid users at the **Users** section.
+![Step 1](content/screenshots/1.png)
 
+###### 2. After you successfully logged in, you will be presented with a list of default ATM's.
+![Step 2](content/screenshots/2.png) 
 
-![Step 1](content/screenshots/)
+###### 3. Start typing the name of the city you wish to locate ATM's for. Notice the valid list of cities will start populating. 
+![Step 3](content/screenshots/3.png) 
 
-
-
+###### 4. Once you select one of the available cities, the ATM's applicable to those cities will be retrieved and displayed. 
+![Step 3](content/screenshots/4.png)
 
 #### Users
 
 The following users and roles exists;
 
-|Username        | Password | Roles         |
-|----------------|----------|---------------|
-|admin           | 12345    | ADMIN, ATM    |
-|johnny          | 123456   | ATM           |
-|sally           | 123456   | ATM           |
+|Username            | Password   | Roles         |
+|--------------------|------------|---------------|
+|**admin**           | `12345`    | ADMIN, ATM    |
+|**johnny**          | `123456`   | ATM           |
+|**sally**           | `123456`   | ATM           |
 
 > Additional users may be added by making changes to; 
 ```
@@ -172,3 +179,9 @@ com.backbase.csmdemo.security.SecurityConfig.UserMapping
 ## JavaDocs
 
 The JavaDocs may be accessed here; [JavaDocs](target/apidocs/index.html).
+
+## Test Output
+
+Below is a screenshot of running the test cases with IntelliJ IDEA.
+
+![Test Output](content/test/test_output.png)
