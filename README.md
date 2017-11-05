@@ -191,4 +191,4 @@ Below is a screenshot of running the test cases with IntelliJ IDEA.
 
 ## Release
 
-Please see [v1.0](releases/) for a list of valid releases.
+Please see [ALL RELEASES](https://github.com/koekiebox/CSMDemo/releases) for a list of valid releases.
