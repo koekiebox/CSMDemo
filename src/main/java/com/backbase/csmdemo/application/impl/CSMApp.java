@@ -1,6 +1,6 @@
 package com.backbase.csmdemo.application.impl;
 
-import com.backbase.csmdemo.application.ICSMApp;
+import com.backbase.csmdemo.application.IATMApp;
 import com.backbase.csmdemo.dao.DAOFactory;
 import com.backbase.csmdemo.dao.IATMDAO;
 import com.backbase.csmdemo.exception.CMSException;
@@ -14,10 +14,15 @@ import java.util.logging.Logger;
 /**
  * The CSM application used for business logic functions.
  *
+ * ATM application functions.
+ * Making use of a bastardised {@code https://en.wikipedia.org/wiki/Prototype_pattern}.
+ *
+ * The list of ATM is refreshed every 2 hours to keep our performance high.
+ *
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
  */
-public class CSMApp implements ICSMApp {
+public class CSMApp implements IATMApp {
 
     //We only support ING for now, but we can add more in the future.
     private List<IATMDAO> allAtmDaos;
@@ -167,15 +172,9 @@ public class CSMApp implements ICSMApp {
      */
     private boolean shouldRefreshATMListing()
     {
-        long now = System.currentTimeMillis();
-
         //Ideally this should be a configuration...
-        if((now + TimeUnit.HOURS.toMillis(FETCH_ATM_LIST_EVERY_HOURS)) > this.lastFetch)
-        {
-            return true;
-        }
-
-        return false;
+        return ((System.currentTimeMillis() +
+                TimeUnit.HOURS.toMillis(FETCH_ATM_LIST_EVERY_HOURS)) > this.lastFetch);
     }
 
     /**

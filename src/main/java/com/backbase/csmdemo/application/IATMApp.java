@@ -7,10 +7,15 @@ import java.util.List;
 /**
  * The CSM application used for business logic functions.
  *
+ * When the application grows, there will be more application classes in the
+ * application layer.
+ *
+ * Currently we only serve at functions.
+ *
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
  */
-public interface ICSMApp {
+public interface IATMApp {
 
     /**
      * Retrieve all the ATMs for {@code cityParam}

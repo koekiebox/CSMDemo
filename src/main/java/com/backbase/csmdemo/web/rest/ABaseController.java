@@ -14,13 +14,6 @@ public abstract class ABaseController {
     protected Logger logger = Logger.getLogger(this.getClass().getName());
     
     /**
-     *
-     */
-    protected static class Role{
-        public static final String ATM_ADMIN = "ATM Admin";
-    }
-
-    /**
      * 
      */
     protected static class ContentType{

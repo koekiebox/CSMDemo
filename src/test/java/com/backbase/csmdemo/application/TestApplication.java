@@ -23,9 +23,9 @@ public class TestApplication {
     @Test
     public void testCompleteListOfATMs() {
         
-        ICSMApp cmsApp = AppFactory.getCMSAppForTest();
+        IATMApp atmApp = AppFactory.getATMAppForTest();
 
-        List<ATM> allATMS = cmsApp.getCompleteListOfATMs();
+        List<ATM> allATMS = atmApp.getCompleteListOfATMs();
 
         TestCase.assertNotNull(allATMS);
         TestCase.assertEquals(6,allATMS.size());
@@ -45,11 +45,11 @@ public class TestApplication {
     @Test
     public void testGetTestApp() {
 
-        ICSMApp cmsApp = AppFactory.getCMSAppForTest();
+        IATMApp atmApp = AppFactory.getATMAppForTest();
 
         //All of them...
         {
-            List<String> allATMCities = cmsApp.getUniqueCityNamesWhereContains(null);
+            List<String> allATMCities = atmApp.getUniqueCityNamesWhereContains(null);
             TestCase.assertNotNull(allATMCities);
             TestCase.assertEquals(3, allATMCities.size());
 
@@ -57,14 +57,14 @@ public class TestApplication {
             TestCase.assertEquals("Den Bosch", allATMCities.get(1));
             TestCase.assertEquals("van Nijvenheimstraat", allATMCities.get(2));
 
-            allATMCities = cmsApp.getUniqueCityNamesWhereContains("");
+            allATMCities = atmApp.getUniqueCityNamesWhereContains("");
             TestCase.assertNotNull(allATMCities);
             TestCase.assertEquals(3, allATMCities.size());
         }
 
         //Amsterdam only...
         {
-            List<String> amsterdamOnly = cmsApp.getUniqueCityNamesWhereContains("ster");
+            List<String> amsterdamOnly = atmApp.getUniqueCityNamesWhereContains("ster");
 
             TestCase.assertNotNull(amsterdamOnly);
             TestCase.assertEquals(1, amsterdamOnly.size());

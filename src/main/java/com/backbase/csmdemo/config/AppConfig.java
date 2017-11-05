@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 /**
  * The app configuration for view.
+ * Making use of {@code JstlView}.
  *
  * @author jasonbruwer on 11/4/17.
  * @since 1.0
@@ -24,7 +25,9 @@ public class AppConfig {
     /**
      * Setup the view resolver.
      * 
-     * @return
+     * @return InternalResourceViewResolver
+     *
+     * @see InternalResourceViewResolver
      */
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -34,8 +37,7 @@ public class AppConfig {
 
         viewResolver.setViewClass(JstlView.class);
         
-        //viewResolver.setPrefix("/");
-        viewResolver.setSuffix("*");
+        viewResolver.setSuffix("*.xhtml");
         
         return viewResolver;
     }

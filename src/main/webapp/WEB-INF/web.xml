@@ -5,7 +5,7 @@
 
     <display-name>CSM Demo Application</display-name>
 
-    <!-- location of spring xml files -->
+    <!-- Location of spring xml files -->
     <!--context-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:/WEB-INF/SpringServlet-servlet.xml</param-value>
@@ -29,10 +29,9 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
+    <!--JSF Config listener-->
     <listener>
-        <listener-class>
-            com.sun.faces.config.ConfigureListener
-        </listener-class>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener>
 
     <!-- JSF Servlet for the GUI. -->
@@ -47,6 +46,7 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <!--JSF properties-->
     <context-param>
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
         <param-value>true</param-value>
@@ -72,6 +72,7 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <!--We will use the default theme-->
     <!--context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>afterwork</param-value>

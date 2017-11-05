@@ -1,5 +1,7 @@
 package com.backbase.csmdemo.model;
 
+import org.json.JSONObject;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,6 +22,21 @@ public class Address extends ABaseModel{
     private GeoLocation geoLocation;
 
     /**
+     * The JSON possible mappings for {@code this} class.
+     */
+    private static class JSONMapping
+    {
+        public static final String STREET = "street";
+        public static final String HOUSE_NUMBER = "housenumber";
+        public static final String HOUSE_NUMBER_2 = "houseNumber";
+        
+        public static final String POSTAL_CODE = "postalcode";
+        public static final String POSTAL_CODE_2 = "postalCode";
+        public static final String CITY = "city";
+        public static final String GEO_LOCATION = "geoLocation";
+    }
+
+    /**
      * Default.
      */
     public Address() {
@@ -28,7 +45,7 @@ public class Address extends ABaseModel{
 
     /**
      * 
-     * @param geoLocationParam
+     * @param geoLocationParam New instance with geo location.
      */
     public Address(GeoLocation geoLocationParam) {
         super();
@@ -37,12 +54,11 @@ public class Address extends ABaseModel{
     }
 
     /**
-     *
-     * @param geoLocationParam
-     * @param streetParam
-     * @param houseNumberParam
-     * @param postalCodeParam
-     * @param cityParam
+     * @param geoLocationParam Location.
+     * @param streetParam Street.
+     * @param houseNumberParam House Number.
+     * @param postalCodeParam Postal Code.
+     * @param cityParam City.
      */
     public Address(
             GeoLocation geoLocationParam,
@@ -59,8 +75,20 @@ public class Address extends ABaseModel{
     }
 
     /**
+     * Populate {@code this} using {@code jsonObjectParam}.
      *
-     * @return
+     * @see GeoLocation#populateByJSON(JSONObject) Performs the populating.
+     *
+     * @param jsonObjectParam The JSON object use to populate.
+     */
+    public Address(JSONObject jsonObjectParam) {
+        super();
+
+        this.populateByJSON(jsonObjectParam);
+    }
+
+    /**
+     * @return Street
      */
     @XmlElement(name = "street")
     public String getStreet() {
@@ -69,7 +97,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @return
+     * @return House Number
      */
     @XmlElement(name = "houseNumber")
     public String getHouseNumber() {
@@ -78,7 +106,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @return
+     * @return Postal Code
      */
     @XmlElement(name = "postalCode")
     public String getPostalCode() {
@@ -87,7 +115,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @return
+     * @return City
      */
     @XmlElement(name = "city")
     public String getCity() {
@@ -96,7 +124,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @return
+     * @return Geo Location
      */
     @XmlElement(name = "geoLocation")
     public GeoLocation getGeoLocation() {
@@ -105,7 +133,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @param streetParam
+     * @param streetParam Street
      */
     public void setStreet(String streetParam) {
         this.street = streetParam;
@@ -113,7 +141,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @param houseNumberParam
+     * @param houseNumberParam House Number
      */
     public void setHouseNumber(String houseNumberParam) {
         this.houseNumber = houseNumberParam;
@@ -121,7 +149,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @param postalCodeParam
+     * @param postalCodeParam Postal Code
      */
     public void setPostalCode(String postalCodeParam) {
         this.postalCode = postalCodeParam;
@@ -129,7 +157,7 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @param cityParam
+     * @param cityParam City
      */
     public void setCity(String cityParam) {
         this.city = cityParam;
@@ -137,7 +165,7 @@ public class Address extends ABaseModel{
 
     /**
      * 
-     * @param geoLocationParam
+     * @param geoLocationParam Geo Location
      */
     public void setGeoLocation(GeoLocation geoLocationParam) {
         this.geoLocation = geoLocationParam;
@@ -145,8 +173,74 @@ public class Address extends ABaseModel{
 
     /**
      *
-     * @param toCompareToParam
-     * @return
+     * @param jsonObjectParam The json object used to populate with.
+     */
+    @Override
+    public void populateByJSON(JSONObject jsonObjectParam) {
+
+        if(jsonObjectParam == null)
+        {
+            //No purpose here.
+            return;
+        }
+
+        //City...
+        this.setCity(null);
+        String city = null;
+        if((city = jsonObjectParam.optString(JSONMapping.CITY)) != null)
+        {
+            this.setCity(city);
+        }
+
+        //House Number...
+        this.setHouseNumber(null);
+        String houseNumber;
+        if((houseNumber = jsonObjectParam.optString(JSONMapping.HOUSE_NUMBER)) != null &&
+                !houseNumber.isEmpty())
+        {
+            this.setHouseNumber(houseNumber);
+        }
+        else if((houseNumber = jsonObjectParam.optString(JSONMapping.HOUSE_NUMBER_2)) != null)
+        {
+            this.setHouseNumber(houseNumber);
+        }
+
+        //Geo Location...
+        this.setGeoLocation(null);
+        JSONObject geoObj = null;
+        if((geoObj = jsonObjectParam.optJSONObject(JSONMapping.GEO_LOCATION)) != null)
+        {
+            this.setGeoLocation(new GeoLocation(geoObj));
+        }
+
+        //Postal Code...
+        this.setPostalCode(null);
+        String postalCode = null;
+        if((postalCode = jsonObjectParam.optString(JSONMapping.POSTAL_CODE)) != null &&
+                !postalCode.isEmpty())
+        {
+            this.setPostalCode(postalCode);
+        }
+        else if((postalCode = jsonObjectParam.optString(JSONMapping.POSTAL_CODE_2)) != null)
+        {
+            this.setPostalCode(postalCode);
+        }
+
+        //Street...
+        this.setStreet(null);
+        String street = null;
+        if((street = jsonObjectParam.optString(JSONMapping.STREET)) != null)
+        {
+            this.setStreet(street);
+        }
+    }
+
+    /**
+     * Compares by Geo Location, if Geo location is not set on both
+     * objects, the street, number etc will be used.
+     *
+     * @param toCompareToParam The object to compare with.
+     * @return Whether the {@code toCompareToParam} is equal to {@code this}.
      */
     @Override
     public boolean equals(Object toCompareToParam) {

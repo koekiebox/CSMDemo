@@ -16,8 +16,9 @@ public interface IATMDAO {
     /**
      * Retrieve a list of all ATMs.
      * 
-     * @return
-     * @throws CMSException When unable to 
+     * @return List of {@code ATM}s.
+     * 
+     * @throws CMSException When unable to fetch ATM's.
      */
     public abstract List<ATM> getListOfAllATMs() throws CMSException;
 }

@@ -1,11 +1,13 @@
 package com.backbase.csmdemo.web.rest;
 
 import com.backbase.csmdemo.application.AppFactory;
-import com.backbase.csmdemo.application.ICSMApp;
+import com.backbase.csmdemo.application.IATMApp;
 import com.backbase.csmdemo.exception.CMSException;
 import com.backbase.csmdemo.model.ATM;
 import com.backbase.csmdemo.web.rest.exception.InvalidParamException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.logging.Level;
 
 /**
  * The rest controller for ATM related web service calls.
+ * 
+ * The API is not currently security checked.
  *
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
@@ -21,23 +25,25 @@ import java.util.logging.Level;
 @RequestMapping("/atm")
 public class ATMController extends ABaseController{
     
-    //@Autowired
-    //private WebApplicationContext applicationContext;
+    @Autowired
+    private WebApplicationContext applicationContext;
 
-    private ICSMApp cmsApp;
+    private IATMApp atmApp;
 
     /**
      * Default constructor
      */
     public ATMController() {
 
-        this.cmsApp = AppFactory.getCMSApp();
+        this.atmApp = AppFactory.getATMApp();
     }
 
     /**
      * List ATM's as JSON for a specific city.
      *
      * @param cityParam The city to retrieve ATM's for.
+     *                  If the city is not provided, an error will be generated.
+     * @throws CMSException If application issues arose.
      *
      * @return A list of ATM's in the {cityParam} city.
      */
@@ -50,6 +56,7 @@ public class ATMController extends ABaseController{
     @ResponseBody
     public List<ATM> listATMsForAsJSON(@RequestParam("city") String cityParam)
     throws CMSException {
+
         //By city...
         if(cityParam == null || cityParam.trim().isEmpty())
         {
@@ -59,7 +66,9 @@ public class ATMController extends ABaseController{
                     "'city' parameter is required for lookup.");
         }
         
-        List<ATM> returnVal = this.cmsApp.getListOfATMsForCity(cityParam);
+        //We will be able to add more in the future...
+        
+        List<ATM> returnVal = this.atmApp.getListOfATMsForCity(cityParam);
 
         if(returnVal == null)
         {
@@ -92,7 +101,7 @@ public class ATMController extends ABaseController{
     {
         //By city...
         List<String> returnVal =
-                this.cmsApp.getUniqueCityNamesWhereContains(cityAliasParam);
+                this.atmApp.getUniqueCityNamesWhereContains(cityAliasParam);
 
         if(returnVal == null)
         {

@@ -247,7 +247,10 @@ public abstract class ABaseClientWS {
      * @param postfixUrlParam URL mapping after the Base endpoint.
      * @return Return body as JSON.
      *
+     * @throws HttpClientException If HTTP communication fails.
+     * 
      * @see JSONObject
+     *
      */
     public JSONObject getJson(
             String postfixUrlParam)
@@ -262,7 +265,10 @@ public abstract class ABaseClientWS {
      * @param postfixUrlParam URL mapping after the Base endpoint.
      * @return Return body as JSON.
      *
+     * @throws HttpClientException If HTTP communication fails.
+     *
      * @see JSONObject
+     *
      */
     public JSONArray getJsonArray(
             String postfixUrlParam)
@@ -278,6 +284,8 @@ public abstract class ABaseClientWS {
      * @param headerNameValuesParam The HTTP Headers to include.
      *
      * @return Return body as JSON.
+     *
+     * @throws HttpClientException If HTTP communication fails.
      *
      * @see JSONObject
      */
@@ -349,6 +357,8 @@ public abstract class ABaseClientWS {
      *
      * @return Return body as JSON.
      *
+     * @throws HttpClientException If HTTP communication fails.
+     *
      * @see JSONObject
      */
     public JSONObject getJson(
@@ -405,228 +415,11 @@ public abstract class ABaseClientWS {
     }
 
     /**
-     * Performs an HTTP-POST request with {@code postfixUrlParam}.
-     *
-     * @param baseDomainParam The base domain to convert to JSON and POST
-     *                        to {@code this} endpoint.
-     * @param postfixUrlParam URL mapping after the Base endpoint.
-     * @return Return body as JSON.
-     *
-     * @see JSONObject
-     */
-    protected JSONObject postJson(
-            JSONObject baseDomainParam,
-            String postfixUrlParam)
-    throws HttpClientException{
-
-        //No need to check connection...
-        return this.postJson(baseDomainParam,postfixUrlParam);
-    }
-
-    /**
-     * Submit a JSON based HTTP request body with JSON as a response.
-     *
-     * @param httpMethodParam The HTTP method to use.
-     * @param contentTypeParam The Mime / Content type to submit as.
-     * @param postfixUrlParam URL mapping after the Base endpoint.
-     * @return Return body as JSON.
-     *
-     * @see HttpMethod
-     * @see JSONObject
-     * @see ContentType
-     */
-    protected JSONObject executeJson(
-            HttpMethod httpMethodParam,
-            JSONObject jsonObjectParam,
-            ContentType contentTypeParam,
-            String postfixUrlParam)
-    throws HttpClientException{
-
-        //Validate that something is set.
-        if(jsonObjectParam == null)
-        {
-            throw new HttpClientException("No JSON Object to post.");
-        }
-
-        String bodyJsonString = jsonObjectParam.toString();
-
-        return this.executeString(httpMethodParam,
-                bodyJsonString, contentTypeParam, postfixUrlParam);
-    }
-
-    /**
-     * Submit the {@code stringParam} as HTTP request body with JSON as a response.
-     *
-     * @param httpMethodParam The HTTP method to use.
-     * @param stringParam The Text to submit.
-     * @param contentTypeParam The Mime / Content type to submit as.
-     * @param postfixUrlParam URL mapping after the Base endpoint.
-     *
-     * @return Return body as JSON.
-     *
-     * @see HttpMethod
-     * @see JSONObject
-     * @see ContentType
-     */
-    protected JSONObject executeString(
-            HttpMethod httpMethodParam,
-            String stringParam,
-            ContentType contentTypeParam,
-            String postfixUrlParam)
-    throws HttpClientException{
-
-        if(stringParam == null || stringParam.isEmpty())
-        {
-            throw new HttpClientException("No JSON body to post.");
-        }
-
-        CloseableHttpClient httpclient = this.getClient();
-
-        String responseBody = null;
-
-        try {
-            HttpUriRequest uriRequest = null;
-
-            //POST...
-            if(httpMethodParam == HttpMethod.POST)
-            {
-                //When its html Form Data...
-                if(contentTypeParam == ContentType.APPLICATION_FORM_URLENCODED)
-                {
-                    RequestBuilder builder = RequestBuilder.post().setUri(
-                            this.endpointUrl.concat(postfixUrlParam));
-
-                    builder = this.addParamsToBuildFromString(builder,stringParam);
-
-                    uriRequest = builder.build();
-                }
-                //JSON or any other...
-                else
-                {
-                    uriRequest = new HttpPost(this.endpointUrl.concat(postfixUrlParam));
-                }
-
-                uriRequest.setHeader(CONTENT_TYPE_HEADER, contentTypeParam.toString());
-            }
-            //PUT...
-            else if(httpMethodParam == HttpMethod.PUT)
-            {
-                if(contentTypeParam == ContentType.APPLICATION_FORM_URLENCODED)
-                {
-                    RequestBuilder builder = RequestBuilder.put().setUri(
-                            this.endpointUrl.concat(postfixUrlParam));
-
-                    builder = this.addParamsToBuildFromString(builder, stringParam);
-                    uriRequest = builder.build();
-                }
-                else
-                {
-                    uriRequest = new HttpPut(this.endpointUrl.concat(postfixUrlParam));
-                    uriRequest.setHeader(CONTENT_TYPE_HEADER, contentTypeParam.toString());
-                }
-            }
-            //DELETE...
-            else if(httpMethodParam == HttpMethod.DELETE)
-            {
-                uriRequest = new HttpDelete(this.endpointUrl.concat(postfixUrlParam));
-                uriRequest.setHeader(CONTENT_TYPE_HEADER, contentTypeParam.toString());
-            }
-
-            //Check that the URI request is set.
-            if(uriRequest == null)
-            {
-                throw new HttpClientException(
-                        "URI Request is not set for HTTP Method '"+httpMethodParam+"'.");
-            }
-
-            //When HttpEntity Enclosing Request Base...
-            if(uriRequest instanceof HttpEntityEnclosingRequestBase)
-            {
-                HttpEntity httpEntity = new StringEntity(stringParam, contentTypeParam);
-                ((HttpEntityEnclosingRequestBase)uriRequest).setEntity(httpEntity);
-            }
-
-            // Create a custom response handler
-            ResponseHandler<String> responseHandler = this.getJsonResponseHandler(
-                    this.endpointUrl.concat(postfixUrlParam));
-
-            responseBody = this.executeHttp(httpclient, uriRequest,
-                    responseHandler, postfixUrlParam);
-
-            if(responseBody == null || responseBody.trim().isEmpty())
-            {
-                throw new HttpClientException(
-                        "No response data from '"+
-                                this.endpointUrl.concat(postfixUrlParam)+"'.");
-            }
-
-            JSONObject jsonOjb = new JSONObject(responseBody);
-            
-            return jsonOjb;
-        }
-        //Invalid JSON Body...
-        catch (JSONException jsonExcept)
-        {
-            if(responseBody != null && !responseBody.trim().isEmpty())
-            {
-                throw new HttpClientException(
-                        jsonExcept.getMessage() + "\n Response Body is: \n\n" +
-                                responseBody,
-                        jsonExcept);
-            }
-
-            throw new HttpClientException(
-                    jsonExcept.getMessage(),
-                    jsonExcept);
-        }
-        //Fluid Client Exception...
-        catch (HttpClientException fluidClientExcept)
-        {
-            throw fluidClientExcept;
-        }
-        //Other Exceptions...
-        catch (Exception otherExcept)
-        {
-            throw new HttpClientException(otherExcept.getMessage(), otherExcept);
-        }
-    }
-
-    /**
-     * Add params to the {@code builderParam} and returns {@code builderParam}.
-     *
-     * @param builderParam Possible existing builder.
-     * @param formDataToAddParam Form Data as Text.
-     * @return Apache HTTP commons request builder.
-     */
-    private RequestBuilder addParamsToBuildFromString(
-            RequestBuilder builderParam,
-            String formDataToAddParam)
-    {
-        String[] nameValuePairs = formDataToAddParam.split(REGEX_AMP);
-
-        if(nameValuePairs.length > 0)
-        {
-            for(String nameValuePair : nameValuePairs)
-            {
-                String[] nameValuePairArr = nameValuePair.split(REGEX_EQUALS);
-                if(nameValuePairArr.length > 1)
-                {
-                    String name = nameValuePairArr[0];
-                    String value = nameValuePairArr[1];
-
-                    builderParam = builderParam.addParameter(name, value);
-                }
-            }
-        }
-
-        return builderParam;
-    }
-
-    /**
      * Get a text based response handler used mainly for JSON.
      *
      * @param urlCalledParam The url called.
      * @return String based response handler.
+     * @throws HttpClientException If HTTP communication fails.
      */
     private ResponseHandler<String> getJsonResponseHandler(final String urlCalledParam)
     throws HttpClientException{
@@ -654,6 +447,13 @@ public abstract class ABaseClientWS {
 
                     String responseJsonString = (entity == null) ? null:
                             EntityUtils.toString(entity);
+
+                    if(responseJsonString != null &&
+                            responseJsonString.startsWith("<html>"))
+                    {
+                        throw new IOException(
+                                "Return data is HTML instead of JSON.");
+                    }
 
                     return responseJsonString;
                 }
@@ -733,6 +533,8 @@ public abstract class ABaseClientWS {
      *
      * @return CloseableHttpClient that may or may not accept
      * self signed certificates.
+     *
+     * @throws HttpClientException If HTTP communication fails.
      */
     private CloseableHttpClient getClient()
     throws HttpClientException{
@@ -804,6 +606,12 @@ public abstract class ABaseClientWS {
         //Default HTTP Client...
         else
         {
+            /*CredentialsProvider provider = new BasicCredentialsProvider();
+            UsernamePasswordCredentials credentials
+                    = new UsernamePasswordCredentials("admin", "12345");
+            provider.setCredentials(AuthScope.ANY, credentials);
+            */
+            
             this.closeableHttpClient = HttpClients.createDefault();
         }
 
@@ -842,7 +650,6 @@ public abstract class ABaseClientWS {
      * If the HTTP Client is set, this will
      * close and clean any connections that needs to be closed.
      *
-     * @since v1.1
      */
     public void closeAndClean()
     {
@@ -857,6 +664,8 @@ public abstract class ABaseClientWS {
     /**
      * Close the SQL and ElasticSearch Connection, but not in
      * a separate {@code Thread}.
+     *
+     * @throws HttpClientException If we are unable to close.
      */
     protected void closeConnectionNonThreaded()
     throws HttpClientException

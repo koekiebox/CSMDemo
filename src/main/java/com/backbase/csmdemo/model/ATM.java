@@ -1,5 +1,7 @@
 package com.backbase.csmdemo.model;
 
+import org.json.JSONObject;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,10 +15,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ATM extends ABaseModel{
 
     //we are ignoring distance for now.
-    private int distance;
+    //private int distance;
     
     private String type;
     private Address address;
+
+    /**
+     * The JSON possible mappings for {@code this} class.
+     */
+    private static class JSONMapping
+    {
+        public static final String ADDRESS = "address";
+        public static final String TYPE = "type";
+    }
 
     /**
      * Default.
@@ -27,7 +38,7 @@ public class ATM extends ABaseModel{
 
     /**
      * 
-     * @param typeParam
+     * @param typeParam Type
      */
     public ATM(String typeParam) {
         super();
@@ -36,9 +47,8 @@ public class ATM extends ABaseModel{
     }
 
     /**
-     * 
-     * @param typeParam
-     * @param addressParam
+     * @param typeParam The type
+     * @param addressParam Address
      */
     public ATM(String typeParam, Address addressParam) {
         super();
@@ -48,8 +58,20 @@ public class ATM extends ABaseModel{
     }
 
     /**
+     * Populate {@code this} using {@code jsonObjectParam}.
      *
-     * @return
+     * @see GeoLocation#populateByJSON(JSONObject) Performs the populating.
+     *
+     * @param jsonObjectParam The JSON object use to populate.
+     */
+    public ATM(JSONObject jsonObjectParam) {
+        super();
+
+        this.populateByJSON(jsonObjectParam);
+    }
+
+    /**
+     * @return Type
      */
     @XmlElement(name = "type")
     public String getType() {
@@ -57,16 +79,14 @@ public class ATM extends ABaseModel{
     }
 
     /**
-     * 
-     * @param typeParam
+     * @param typeParam Type
      */
     public void setType(String typeParam) {
         this.type = typeParam;
     }
 
     /**
-     *
-     * @return
+     * @return Address
      */
     @XmlElement(name = "address")
     public Address getAddress() {
@@ -74,17 +94,47 @@ public class ATM extends ABaseModel{
     }
 
     /**
-     *
-     * @param addressParam
+     * @param addressParam Address
      */
     public void setAddress(Address addressParam) {
         this.address = addressParam;
     }
 
     /**
-     * 
-     * @param toCompareToParam
-     * @return
+     * @param jsonObjectParam The json object used to populate with.
+     */
+    @Override
+    public void populateByJSON(JSONObject jsonObjectParam) {
+
+        if(jsonObjectParam == null)
+        {
+            //No purpose here.
+            return;
+        }
+
+        //Type...
+        this.setType(null);
+        String type;
+        if((type = jsonObjectParam.optString(JSONMapping.TYPE)) != null)
+        {
+            this.setType(type);
+        }
+
+        //Address...
+        this.setAddress(null);
+        JSONObject addressJsonObj;
+        if((addressJsonObj =
+                jsonObjectParam.optJSONObject(JSONMapping.ADDRESS)) != null)
+        {
+            this.setAddress(new Address(addressJsonObj));
+        }
+    }
+
+    /**
+     * Compares by Type and Address.
+     *
+     * @param toCompareToParam The object to compare to.
+     * @return Whether the {@code toCompareToParam} is equal to {@code this}.
      */
     @Override
     public boolean equals(Object toCompareToParam) {

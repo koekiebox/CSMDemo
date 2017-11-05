@@ -18,7 +18,9 @@ import java.util.List;
 public class DAOFactory {
 
     /**
+     * The list of ATM types supported.
      *
+     * When a new financial institution comes on board, we will add them here.
      */
     public enum ATMType{
         ING,
@@ -82,8 +84,9 @@ public class DAOFactory {
     /**
      * Retrieve the Data Access Object interfaces for the {@code atmTypeParam}.
      *
-     * @param atmTypeParam
-     * @return
+     * @param atmTypeParam The DAO type to fetch for.
+     *
+     * @return IATMDAO
      */
     public static IATMDAO getATMDAO(ATMType atmTypeParam)
     {

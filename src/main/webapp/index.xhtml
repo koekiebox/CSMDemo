@@ -16,11 +16,12 @@
         <p:fieldset id="specifyFilesFieldset"
                     legend="Enter City for ATM Lookup">
 
-            <h:panelGrid columns="2" width="70%">
+            <h:panelGrid columns="2" width="100%">
 
                 <p:outputLabel style="padding-left: 15px;" id="labelCity" value="City"/>
                 <p:autoComplete id="cityLookupDrop"
                                 size="50"
+                                queryDelay="500"
                                 dropdown="true"
                                 value="#{atmLookupBean.inputCity}"
                                 forceSelection="true"

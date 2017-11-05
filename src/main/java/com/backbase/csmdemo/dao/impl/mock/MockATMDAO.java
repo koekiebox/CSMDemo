@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Mock
+ * Mock implementation class used to test business logic.
+ * This mock allows us to test without connecting outward.
  *
  * @author jasonbruwer on 11/3/17.
  * @since 1.0
@@ -19,8 +20,9 @@ public class MockATMDAO implements IATMDAO {
     private static String TYPE = "ACME Bank";
 
     /**
+     * Returns a static list of test ATMs.
      *
-     * @return
+     * @return Static list of ATM's.
      */
     @Override
     public List<ATM> getListOfAllATMs() {

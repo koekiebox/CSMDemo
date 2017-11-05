@@ -20,9 +20,9 @@ public class TestAppFactory {
     @Test
     public void testGetProdApp() {
         
-        ICSMApp cmsApp = AppFactory.getCMSApp();
+        IATMApp atmApp = AppFactory.getATMApp();
 
-        TestCase.assertNotNull("App is not set!",cmsApp);
+        TestCase.assertNotNull("App is not set!",atmApp);
     }
 
     /**
@@ -31,8 +31,8 @@ public class TestAppFactory {
     @Test
     public void testGetTestApp() {
 
-        ICSMApp cmsApp = AppFactory.getCMSAppForTest();
+        IATMApp atmApp = AppFactory.getATMAppForTest();
         
-        TestCase.assertNotNull("App is not set!",cmsApp);
+        TestCase.assertNotNull("App is not set!",atmApp);
     }
 }

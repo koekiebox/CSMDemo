@@ -3,7 +3,9 @@ package com.backbase.csmdemo.dao.exception;
 import com.backbase.csmdemo.exception.CMSException;
 
 /**
- * When a DAO issue occur.
+ * When an HTTP client problem occurs.
+ *
+ * Makes use of {@code 10002}.
  *
  * @author jasonbruwer on 11/4/17.
  * @since 1.0
@@ -14,7 +16,7 @@ public class HttpClientException extends CMSException {
 
     /**
      *
-     * @param messageParam
+     * @param messageParam Sets the super message.
      */
     public HttpClientException(String messageParam) {
         super(messageParam, CODE);
@@ -22,8 +24,8 @@ public class HttpClientException extends CMSException {
 
     /**
      *
-     * @param messageParam
-     * @param causeParam
+     * @param messageParam Sets the super message.
+     * @param causeParam The cause.
      */
     public HttpClientException(String messageParam, Throwable causeParam) {
         super(messageParam, causeParam, CODE);

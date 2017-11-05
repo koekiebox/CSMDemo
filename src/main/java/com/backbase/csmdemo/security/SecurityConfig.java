@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * The hard-coded users of the system.
      * Only the users below will be able to access the ATM application.
-     * 
+     *
+     * Ideally we want these users stored in a database.
      */
     public static enum UserMapping{
 
@@ -53,8 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         /**
-         *
-         * @return
+         * @return Username
          */
         public String getUsername() {
             return this.username;
@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         /**
          *
-         * @return
+         * @return Password
          */
         public String getPassword() {
             return this.password;
@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         /**
          * 
-         * @return
+         * @return List of Roles
          */
         public String[] getRoles() {
             return this.roles;
@@ -80,8 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * Configure the users for the ATM UI.
      *
-     * @param authParam
-     * @throws Exception
+     * @param authParam The framework auth to configure.
+     * @throws Exception If anything goes wrong.
      */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authParam) throws Exception {
@@ -97,25 +97,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Admin has full access, while ATM role only has access to {@code index.xhtml}.
+     * Both ADMIN and ATM role has access to all web-app resources.
      *
-     * //.antMatchers("/pages/main_page_tab_menu.xhtml").access("hasRole('ATM')")
-     //.antMatchers("/index.xhtml").access("hasRole('ATM')")
-     //.antMatchers("/javax.faces.resource/**").access("hasRole('ATM')")
-     //.antMatchers("/javax**").access("hasRole('ADMIN')")
-     //.antMatchers("jquery.js*").access("hasRole('ADMIN')")
-     //.antMatchers("/pages/main_page_tab_menu.xhtml").access("hasRole('ROLE_ATM') or hasRole('ATM')")
-     //.antMatchers("/index.xhtml").access("hasRole('ROLE_ATM') or hasRole('ATM')")
-     * 
-     * @param httpParam
-     * @throws Exception
+     * We allow anyone to access the API.
+     *
+     * We will most likely change this in the future.
+     *
+     * @param httpParam The http to apply the security on.
+     * @throws Exception If there are any configuration problems.
      */
     @Override
     protected void configure(HttpSecurity httpParam) throws Exception {
 
-        //Allow all resources for anyone authenticated...
+        //Web app access is restricted, while access tp /api/** is allowed for all.
         httpParam.authorizeRequests()
-                .antMatchers("**").access("hasRole('ADMIN') or hasRole('ATM')")
+                //The JSF front-end...
+                .antMatchers("/index.xhtml").access("hasRole('ADMIN') or hasRole('ATM')")
+                .antMatchers("/javax*").access("hasRole('ADMIN') or hasRole('ATM')")
+                //The API...
+                .antMatchers("/api/**").permitAll()
                 .and().formLogin();
 
     }

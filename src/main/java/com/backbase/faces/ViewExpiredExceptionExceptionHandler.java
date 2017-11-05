@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * Used for when a session expired.
+ *
  * @author jasonbruwer on 11/4/17.
  * @since 1.0
  */
@@ -20,8 +22,7 @@ public class ViewExpiredExceptionExceptionHandler extends ExceptionHandlerWrappe
     private ExceptionHandler wrapped;
 
     /**
-     *
-     * @param handlerParam
+     * @param handlerParam handler.
      */
     public ViewExpiredExceptionExceptionHandler(ExceptionHandler handlerParam) {
         this.wrapped = handlerParam;
@@ -29,7 +30,7 @@ public class ViewExpiredExceptionExceptionHandler extends ExceptionHandlerWrappe
 
     /**
      *
-     * @return
+     * @return Wrapper handler.
      */
     @Override
     public ExceptionHandler getWrapped() {
@@ -38,11 +39,13 @@ public class ViewExpiredExceptionExceptionHandler extends ExceptionHandlerWrappe
 
     /**
      *
-     * @throws FacesException
+     * @throws FacesException when there is a handling error.
      */
     @Override
     public void handle() throws FacesException {
+        
         for (Iterator<ExceptionQueuedEvent> eventIterator = getUnhandledExceptionQueuedEvents().iterator(); eventIterator.hasNext();) {
+            
             ExceptionQueuedEvent event = eventIterator.next();
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable throwable = context.getException();
@@ -69,17 +72,10 @@ public class ViewExpiredExceptionExceptionHandler extends ExceptionHandlerWrappe
                     eventIterator.remove();
                 }
             }
-
-            /*
-            String errorPageLocation = "/WEB-INF/errorpages/expired.xhtml";
-            context.setViewRoot(context.getApplication().getViewHandler().createView(context, errorPageLocation));
-            context.getPartialViewContext().setRenderAll(true);
-            context.renderResponse();
-            */
         }
+        
         // At this point, the queue will not contain any ViewExpiredEvents.
         // Therefore, let the parent handle them.
         getWrapped().handle();
-
     }
 }

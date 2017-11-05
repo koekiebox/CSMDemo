@@ -13,17 +13,15 @@ public class InvalidParamException extends CMSException {
     private static int CODE = 10003;
 
     /**
-     *
-     * @param messageParam
+     * @param messageParam Sets the master message.
      */
     public InvalidParamException(String messageParam) {
         super(messageParam, CODE);
     }
 
     /**
-     *
-     * @param messageParam
-     * @param causeParam
+     * @param messageParam Sets the master message.
+     * @param causeParam The cause of the problem.
      */
     public InvalidParamException(String messageParam, Throwable causeParam) {
         super(messageParam, causeParam, CODE);

@@ -1,7 +1,7 @@
 package com.backbase.csmdemo.web.backing;
 
 import com.backbase.csmdemo.application.AppFactory;
-import com.backbase.csmdemo.application.ICSMApp;
+import com.backbase.csmdemo.application.IATMApp;
 import com.backbase.csmdemo.model.ATM;
 import org.primefaces.event.SelectEvent;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * JSF Bean used to lookup transactions.
+ * JSF session Bean used to lookup ATMs in the Netherlands.
  */
 @SessionScoped
 @ManagedBean(name = "atmLookupBean")
@@ -24,7 +24,10 @@ public class ATMLookupBean implements Serializable {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private ICSMApp cmsApp;
+    //We make use of the atm app directly.
+    //There is no point to add the REST layer as it would add unnecessary fat.
+    private IATMApp atmApp;
+
     private List<ATM> atmListing = null;
     private String inputCity;
 
@@ -34,39 +37,45 @@ public class ATMLookupBean implements Serializable {
     public ATMLookupBean() {
         super();
 
-        this.cmsApp = AppFactory.getCMSApp();
+        this.atmApp = AppFactory.getATMApp();
         this.atmListing = new ArrayList<>();
     }
 
     /**
-     * Populate with all the atms on page load...
+     * Populate with all the ATMs on session start.
      */
     @PostConstruct
     public void populateATMListing()
     {
-        this.atmListing = this.cmsApp.getCompleteListOfATMs();
+        this.atmListing = this.atmApp.getCompleteListOfATMs();
     }
 
     /**
-     * @param inputTextParam
-     * @return
+     * Help the user to complete the city to select.
+     *
+     * We only return the top 20 results.
+     *
+     * @param inputTextParam The partial text used for lookup.
+     * 
+     * @return The valid cities from {@code inputTextParam}.
      */
     public List<String> completePossibleCity(String inputTextParam)
     {
         List<String> returnVal =
-                this.cmsApp.getUniqueCityNamesWhereContains(inputTextParam);
+                this.atmApp.getUniqueCityNamesWhereContains(inputTextParam);
 
         if(returnVal.size() > 20)
         {
-            return returnVal.subList(0,20);
+            return returnVal.subList(0, 20);
         }
         
         return returnVal;
     }
 
     /**
+     * Fired when a city is selected.
      *
-     * @param eventParam
+     * @param eventParam The JSF select event.
      */
     public void actionCitySelectedEvent(SelectEvent eventParam)
     {
@@ -75,7 +84,7 @@ public class ATMLookupBean implements Serializable {
 
         this.atmListing.clear();
 
-        this.atmListing.addAll(this.cmsApp.getListOfATMsForCity(
+        this.atmListing.addAll(this.atmApp.getListOfATMsForCity(
                 eventParam.getObject().toString()));
         
         FacesContext.getCurrentInstance().addMessage(
@@ -85,32 +94,28 @@ public class ATMLookupBean implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * @return List of ATMs
      */
     public List<ATM> getAtmListing() {
         return this.atmListing;
     }
 
     /**
-     * 
-     * @param atmListingParam
+     * @param atmListingParam List of ATMs
      */
     public void setAtmListing(List<ATM> atmListingParam) {
         this.atmListing = atmListingParam;
     }
 
     /**
-     *
-     * @return
+     * @return Input City
      */
     public String getInputCity() {
         return this.inputCity;
     }
 
     /**
-     *
-     * @param inputCityParam
+     * @param inputCityParam Input City
      */
     public void setInputCity(String inputCityParam) {
         this.inputCity = inputCityParam;
