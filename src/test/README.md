@@ -16,5 +16,3 @@ Follow the steps below in order to run the test cases.
 > `mvn clean install package jetty:run`
 
 **The validated release has been tested using Tomcat 7.**
-
-

@@ -125,7 +125,6 @@ OS name: "mac os x", version: "10.12.6", arch: "x86_64", family: "mac"
 Make use of the following commands.
 
 ### Maven Compile
-`mvn clean compile`
 
 `mvn clean compile`
 
@@ -145,7 +144,14 @@ The screenshots below describe the using of the ATM Lookup via the Web Front-End
 
 ###### 1. Navigate to the CSM Demo web page (http://localhost:8080/csmdemo/):
 
-![Step 1](src/main/resources/screenshots/1.png)
+> Please ensure the web application is deployed successfully.
+
+You will be prompted to enter valid username and password.
+
+
+![Step 1](content/screenshots/)
+
+
 
 
 #### Users
