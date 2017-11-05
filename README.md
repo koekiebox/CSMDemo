@@ -4,6 +4,10 @@
 
 # Camel Spring Maven Backbase Demo (CSM Demo)
 
+[![label](https://img.shields.io/badge/csmdemo-v1.0-orange.svg?style=plastic)]()
+[![label](https://img.shields.io/badge/javadoc-cmsdemo-blue.svg?style=plastic)](https://github.com/koekiebox/CSMDemo/releases/download/1.0/csmdemo-javadoc.jar)
+[![label](https://img.shields.io/badge/test-pass-green.svg?style=plastic)](https://github.com/Koekiebox-PTY-LTD/Fluid/releases/download/v1.7/fluid-api-1.7-javadoc.jar)
+
 ## Introduction
 
 A sample application making use of Maven, Camel and Spring.
