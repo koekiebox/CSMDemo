@@ -22,7 +22,7 @@
 hs_err_pid*
 
 /.idea
-/target/*
+/target/
 
 # Dont ignore the javadocs
 !/target/apidocs
