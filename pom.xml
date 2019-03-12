@@ -24,7 +24,7 @@
         <version.spring>4.3.18.RELEASE</version.spring>
         <version.spring.security>4.2.3.RELEASE</version.spring.security>
 
-        <version.jackson.databind>2.9.5</version.jackson.databind>
+        <version.jackson.databind>2.9.7</version.jackson.databind>
         <version.log4j>2.9.1</version.log4j>
 
         <!--Apache HTTP Client-->
